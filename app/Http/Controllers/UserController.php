@@ -77,7 +77,9 @@ class UserController extends Controller
             'password' => $request->input('password')
         ];
         
-        if(Auth::attempt($userdata)){
+        Auth::attempt($userdata);
+
+        if(Auth::check()){
             return redirect()->route('user', [$request->input('user_id')]);
         } else {
             echo 'Failed Login';
