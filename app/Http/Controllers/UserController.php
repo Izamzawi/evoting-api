@@ -16,7 +16,8 @@ class UserController extends Controller
     public function index()
     {
         //
-        return User::all();
+        $user = User::select('firstname', 'lastname')->get();
+        return $user;
     }
 
     /**
@@ -37,10 +38,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($user_id)
     {
         //
-        return User::find($id);
+        return User::find($user_id);
     }
 
     /**
@@ -50,12 +51,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $user_id)
     {
         //
-        $account = Account::find($id);
-        $account->update($request->all());
-        return $account;
+        $user = User::find($user_id);
+        $user->update($request->all());
+        return $user;
     }
 
     /**
@@ -64,9 +65,22 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($user_id)
     {
         //
-        return Book::destroy($id);
+        return User::destroy($user_id);
     }
+
+    public function login(Request $request){
+        $userdata = [
+            'user_id' => $request->input('user_id'),
+            'password' => $request->input('password')
+        ];
+        
+        if(Auth::attempt($userdata)){
+            return redirect()->route('user', [$request->input('user_id')]);
+        } else {
+            echo 'Failed Login';
+        }
+    }    
 }
