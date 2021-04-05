@@ -19,9 +19,6 @@ class CreateUsersTable extends Migration
             $table->string('firstname', 50);
             $table->string('lastname', 50)->nullable();
             $table->string('password', 300);
-            $table->foreignId('role_id')->constrained();
-            $table->foreignId('organizer_id')->constrained();
-            $table->foreignId('election_id')->constrained();
             $table->rememberToken();
             $table->timestamps();
         });
