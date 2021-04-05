@@ -32,7 +32,7 @@ class CandidateController extends Controller
             'election_id' => ['required']
         ]);
 
-        // create an account
+        // create a new candidate
         return Candidate::create($request->all());
     }
 
