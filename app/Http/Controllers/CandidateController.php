@@ -28,14 +28,12 @@ class CandidateController extends Controller
     {
         //
         $request->validate([
-            'name' => ['required', 'regex:[A-Za-z0-9]'],
-            'order_no' => ['required', 'regex:[A-Za-z]'],
-            'vision' => ['required', 'regex:[A-Za-z0-9]', 'min:8', 'max:16'],
+            'name' => ['required', 'regex:[A-Za-z]'],
             'election_id' => ['required']
         ]);
 
         // create an account
-        return Account::create($request->all());
+        return Candidate::create($request->all());
     }
 
     /**
