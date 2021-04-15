@@ -65,11 +65,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user_id)
-    {
-        //
-        return User::destroy($user_id);
-    }
+    // public function destroy($user_id)
+    // {
+    //     //
+    //     return User::destroy($user_id);
+    // }
 
     public function login(Request $request){
         $userdata = [
