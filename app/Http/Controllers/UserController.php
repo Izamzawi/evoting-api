@@ -34,12 +34,22 @@ class UserController extends Controller
             'firstname' => ['required', 'regex:/^[A-Z][a-z]+$/'],
             'lastname' => ['regex:/^[A-Z][a-z]+$/'],
             'password' => ['required', 'regex:/^[A-Za-z0-9]+$/', 'min:8'],
-            'role_id' => ['required', 'regex:/^.[1]$/'],
-            'organizer_id' => ['required', 'regex:/^.[1]$/'],
-            'election_id' => ['required', 'regex:/^.[1]$/']
+            'role_id' => ['required', 'regex:/^[1]$/'],
+            'organizer_id' => ['required', 'regex:/^[1]$/'],
+            'election_id' => ['required', 'regex:/^[1]$/']
         ]);
 
-        return User::create($request->all());
+        $user = User::create($request->all());
+        $userdata = [
+            'firstname' => $request->input('firstname'),
+            'lastname' => $request->input('lastname')
+        ];
+
+        if($user){
+            return $userdata;
+        } else {
+            return "Failed to store data.";
+        }
     }
 
     /**
@@ -87,7 +97,12 @@ class UserController extends Controller
     public function destroy($user_id)
     {
         //
-        return User::destroy($user_id);
+        $deletion = User::destroy($user_id);
+        if($deletion){
+            return "User deleted.";
+        } else {
+            return "User deletion failed.";
+        }
     }
 
     public function login(Request $request){
