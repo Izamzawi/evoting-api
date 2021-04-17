@@ -39,12 +39,7 @@ class UserController extends Controller
             'election_id' => ['required', 'regex:[1]', 'max:1']
         ]);
 
-        $user = User::create($request->all());
-        if($user){
-            return $user;
-        } else {
-            return "Failed to register new voter. ";
-        }
+        return User::create($request->all());
     }
 
     /**
