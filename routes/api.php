@@ -27,8 +27,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::GET('/users', [UserController::class, 'index']);
 Route::POST('/users', [UserController::class, 'store']);
 Route::GET('/users/{user_id}', [UserController::class, 'show'])->name('user');
-Route::PUT('/users/{id}', [UserController::class, 'update']);
-// Route::DELETE('/users/{id}', [UserController::class, 'destroy']);
+Route::PUT('/users/{user_id}', [UserController::class, 'update']);
+Route::DELETE('/users/{user_id}', [UserController::class, 'destroy']);
 
 Route::POST('/login', [UserController::class, 'login'])->name('login');
 
@@ -36,4 +36,4 @@ Route::GET('/candidates', [CandidateController::class, 'index']);
 Route::POST('/candidates', [CandidateController::class, 'store']);
 Route::GET('/candidates/{id}', [CandidateController::class, 'show'])->name('candidate');
 Route::PUT('/candidates/{id}', [CandidateController::class, 'update']);
-Route::DELETE('/candidates/{id}', [CandidateController::class, 'destroy']);
+// Route::DELETE('/candidates/{id}', [CandidateController::class, 'destroy']);

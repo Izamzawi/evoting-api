@@ -29,7 +29,22 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        return User::create($request->all());
+        $request->validate([
+            'user_id' => ['required', 'regex:[A-Za-z0-9]'],
+            'firstname' => ['required', 'regex:^[A-Z][a-z]'],
+            'lastname' => ['regex:^[A-Z][a-z]'],
+            'password' => ['required', 'regex:[A-Za-z0-9]', 'min:8'],
+            'role_id' => ['required', 'regex:[1]', 'max:1'],
+            'organizer_id' => ['required', 'regex:[1]', 'max:1'],
+            'election_id' => ['required', 'regex:[1]', 'max:1']
+        ]);
+
+        $user = User::create($request->all());
+        if($user){
+            return $user;
+        } else {
+            return "Failed to register new voter. ";
+        }
     }
 
     /**
@@ -55,6 +70,15 @@ class UserController extends Controller
     {
         //
         $user = User::find($user_id);
+
+        $request->validate([
+            'user_id' => ['required', 'regex:[A-Za-z0-9]'],
+            'firstname' => ['required', 'regex:^[A-Z][a-z]'],
+            'lastname' => ['regex:^[A-Z][a-z]'],
+            'organizer_id' => ['required', 'regex:[1]', 'max:1'],
+            'election_id' => ['required', 'regex:[1]', 'max:1']
+        ]);
+
         $user->update($request->all());
         return $user;
     }
@@ -65,11 +89,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function destroy($user_id)
-    // {
-    //     //
-    //     return User::destroy($user_id);
-    // }
+    public function destroy($user_id)
+    {
+        //
+        return User::destroy($user_id);
+    }
 
     public function login(Request $request){
         $userdata = [

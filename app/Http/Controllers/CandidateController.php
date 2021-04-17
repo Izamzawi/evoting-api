@@ -29,7 +29,9 @@ class CandidateController extends Controller
         //
         $request->validate([
             'name' => ['required', 'regex:[A-Za-z]'],
-            'election_id' => ['required']
+            'order_no' => ['required', 'regex:[1-9]', 'max:1'],
+            'vision' => ['required', 'regex:[A-Za-z0-9]'],
+            'election_id' => ['required', 'regex:[1]', 'max:1']
         ]);
 
         // create a new candidate
@@ -57,6 +59,17 @@ class CandidateController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $candidate = Candidate::find($id);
+
+        $request->validate([
+            'name' => ['required', 'regex:^[A-Z][a-z]'],
+            'order_no' => ['required', 'regex:[1-9]', 'max:1'],
+            'vision' => ['required', 'regex:[A-Za-z0-9]'],
+        ]);
+
+        $candidate->update($request->all());
+        return $candidate;
+
     }
 
     /**

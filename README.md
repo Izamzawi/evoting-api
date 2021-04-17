@@ -1,62 +1,110 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+This repository contains the source code of a e-voting API. The API was built with Laravel. The site of this app is https://evoting-api.herokuapp.com/.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## API Contents
 
-## About Laravel
+This applications contains two major datas that can be accessed, users (voters) and candidates. 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Users data
+Users data contains identity of each user who already registered to the e-voting app.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Available routes:
+1. Retrieve all registered users (GET)
+This route is available for public use. This route can be accessed via https://evoting-api.herokuapp.com/api/users and requested with GET method on Postman. This route will return firtsname and lastname of every registered users.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2. Register a new user (POST)
+This route can only be accessed on Postman with POST method on https://evoting-api.herokuapp.com/api/users. The data of new voter can be sent with raw JSON form.
+This is the correct JSON to send new voter data:
+```
+{
+    "user_id" : "",
+    "firstname" : "",
+    "lastname" : "",
+    "password" : "",
+    "role_id" : "",
+    "organizer_id" : "",
+    "election_id" : ""
+}
+```
 
-## Learning Laravel
+Note:
+-user_id can only consisted of alphabet (lowercase and uppercase) and numbers.
+-firstname and lastname can only contains alphabet with uppercase for the first letter. lastname are not required.
+-password have a minimum of 8 characters.
+-role_id, organizer_id, and election_id can only receive a single number.
+-Available input for role_id: 1 (voter role).
+-Available input for organizer_id: 1 (BEM UI).
+-Available input for election_id: 1 (Pemira UI).
+-There will be another input number for organizer_id and eletion_id in the future.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. Retrieve a voter's identity (GET/{user_id})
+Access a voter's identity is provided by user_id. Each user should only know their own user_id. Therefore, accessing user's identity can only be achieved after accessing 'login' route.
 
-## Laravel Sponsors
+4. Login route (LOGIN)
+This login route provide secure way to access user's idenity since each user should only know their own user_id and password. This route can be accessed via POST method on http://evoting-api.herokuapp.com/api/login. The login form sent via raw JSON with the format available below:
+```
+{
+    "user_id" : "",
+    "password" : ""
+}
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+5. Update user identity (PUT/{user_id})
+User can also edit their stored identity by accessing PUT method on http://evoting-api.herokuapp.com/api/users/{your user_id}. Edit method is available but limited, since user can't edit their password and role_id (role_id only accept '1' as input.). And also, there is no other alternative input for organizer_id and election_id. The correct JSON format to send updated data is:
+```
+{
+    "user_id" : "",
+    "firstname" : "",
+    "lastname" : "",
+    "organizer_id" : "",
+    "election_id" : ""
+}
+```
 
-### Premium Partners
+6. Delete an existing user (DELETE/{user_id})
+Since only each user know their own user_id, deleting a user can only be achieved by themselves. This route accessed with DELETE method on http://evoting-api.herokuapp.com/api/users/{your user_id}.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
+### Candidates data
+This data section contains all available information about candidates listed for election.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Available routes:
+1. Retrieve all available candidates (GET)
+This route is available for public use. This route can be accessed via https://evoting-api.herokuapp.com/api/candidates and requested with GET and return all candidates listed on every election.
 
-## Code of Conduct
+2. Input a new candidate (POST)
+This route can only be accessed on Postman with POST method on https://evoting-api.herokuapp.com/api/candidates. The data of new voter can be sent with raw JSON form.
+This is the correct JSON to send new voter data:
+```
+{
+    "name" : "",
+    "order_no" : "",
+    "vision" : "",
+    "election_id" : ""
+}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Note:
+-name can only consisted of alphabet (lowercase and uppercase).
+-order_no can only receive a single digit number.
+-vision can receive alphabet and numbers.
+-election_id can only receive a single number. Available input for election_id: 1 (Pemira UI).
 
-## Security Vulnerabilities
+3. Retrieve a voter's identity (GET/{id})
+Each candidate's data can be accessed by writing the correct id of each candidates. This can be achieved by GET method on https://evoting-api.herokuapp.com/api/candidates/{id} on Postman or web browser.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. Update user identity (PUT/{id})
+While storing a candidate's data, an error on typing may accidentally occur. Editing a candidate's data is available via PUT method on https://evoting-api.herokuapp.com/api/candidates/{id} on Postman. The updated data can be sent via raw JSON with the format as below:
+```
+{
+    "name" : "",
+    "order_no" : "",
+    "vision" : "",
+}
+```
 
-## License
+Note:
+-eletion_id is not available for editing since its considered "easy to write" and thus not a common source of typing error. If the error occurs, only web administrator can fix it.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+5. Delete a candidate from list
+There is no route for deleting a candidate. Candidate deletion (because of wrong data input) can be requested to web administrator.
