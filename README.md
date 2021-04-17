@@ -1,8 +1,10 @@
 This repository contains the source code of a e-voting API. The API was built with Laravel. The site of this app is https://evoting-api.herokuapp.com/.
 
+
 ## API Contents
 
 This applications contains two major datas that can be accessed, users (voters) and candidates. 
+
 
 ### Users data
 Users data contains identity of each user who already registered to the e-voting app.
@@ -108,3 +110,28 @@ Note:
 
 5. Delete a candidate from list
 There is no route for deleting a candidate. Candidate deletion (because of wrong data input) can be requested to web administrator.
+
+
+## Testing
+
+To test the API, you can:
+1. Register a new user with the correct requirement.
+This way, you can test all the possible route from the user section. You can:
+   1. Register a new user, 
+   2. try to login with your password,
+   3. edit the registered data, and/or
+   4. delete your newly created user 
+
+2. Use the available user data for test purpose.
+Available user data:
+```
+{
+    "user_id" : "voter1234",
+    "firstname" : "New",
+    "lastname" : "Voter",
+    "password" : "voterbaru",
+    "role_id" : "1",
+    "organizer_id" : "1",
+    "election_id" : "1"
+}
+```
