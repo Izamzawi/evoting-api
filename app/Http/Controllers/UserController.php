@@ -32,7 +32,7 @@ class UserController extends Controller
         $request->validate([
             'user_id' => ['required', 'regex:[A-Za-z0-9]'],
             'firstname' => ['required', 'regex:^[A-Z][a-z]'],
-            'lastname' => ['regex:/^[A-Z][a-z]/'],
+            'lastname' => ['regex:[A-Za-z]'],
             'password' => ['required', 'regex:[A-Za-z0-9]', 'min:8'],
             'role_id' => ['required', 'regex:[1]', 'max:1'],
             'organizer_id' => ['required', 'regex:[1]', 'max:1'],
