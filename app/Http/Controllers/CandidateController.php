@@ -47,6 +47,7 @@ class CandidateController extends Controller
     public function show($id)
     {
         //
+        return Candidate::find($id);
     }
 
     /**
