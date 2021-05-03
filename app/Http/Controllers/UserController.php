@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         //
-        $user = User::select('firstname', 'lastname')->get();
+        $user = User::where('role_id', '1')->select('firstname', 'lastname')->get();
         return $user;
     }
 
@@ -29,14 +29,14 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
+        $validator = $request->validate([
             'user_id' => ['required', 'regex:/^[A-Za-z0-9]+$/'],
             'firstname' => ['required', 'regex:/^[A-Z][a-z]+$/'],
             'lastname' => ['regex:/^[A-Z][a-z]+$/'],
             'password' => ['required', 'regex:/^[A-Za-z0-9]+$/', 'min:8'],
-            'role_id' => ['required', 'regex:/^[1]$/'],
-            'organizer_id' => ['required', 'regex:/^[1]$/'],
-            'election_id' => ['required', 'regex:/^[1]$/']
+            'role_id' => ['required', 'regex:[1]'],
+            'organizer_id' => ['required', 'regex:[1]'],
+            'election_id' => ['required', 'regex:[1]']
         ]);
 
         $user = User::create($request->all());
@@ -77,9 +77,9 @@ class UserController extends Controller
         $user = User::find($user_id);
 
         $request->validate([
-            'user_id' => ['required', 'regex:[A-Za-z0-9]'],
-            'firstname' => ['required', 'regex:[A-Za-z]'],
-            'lastname' => ['regex:[A-Za-z]'],
+            'user_id' => ['required', 'regex:/^[A-Za-z0-9]+$/'],
+            'firstname' => ['required', 'regex:/^[A-Z][a-z]+$/'],
+            'lastname' => ['regex:/^[A-Z][a-z]+$/'],
             'organizer_id' => ['required', 'regex:[1]', 'max:1'],
             'election_id' => ['required', 'regex:[1]', 'max:1']
         ]);
@@ -114,7 +114,14 @@ class UserController extends Controller
         Auth::attempt($userdata);
 
         if(Auth::check()){
-            return redirect()->route('user', [$request->input('user_id')]);
+            $user = User::find($request->input('user_id'));
+
+            if($user->role_id == '1'){
+                return redirect()->route('user', [$request->input('user_id')]);
+            } if($user->role_id == '2'){
+                return redirect()->route('hasvoted');
+            }
+            
         } else {
             echo 'Failed Login';
         }

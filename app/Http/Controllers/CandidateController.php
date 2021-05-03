@@ -31,7 +31,7 @@ class CandidateController extends Controller
             'name' => ['required', 'regex:/^[A-Z][a-z]+$/'],
             'order_no' => ['required', 'regex:/^.[1-9]$/'],
             'vision' => ['required', 'regex:/^[A-Za-z0-9]+$/'],
-            'election_id' => ['required', 'regex:/^.[1]$/']
+            'election_id' => ['required', 'regex:[1]']
         ]);
 
         // create a new candidate

@@ -9,6 +9,9 @@ use App\Http\Controllers\UserController;
 use App\Models\Candidate;
 use App\Http\Controllers\CandidateController;
 
+use App\Models\Vote;
+use App\Http\Controllers\VoteController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -37,3 +40,6 @@ Route::POST('/candidates', [CandidateController::class, 'store']);
 Route::GET('/candidates/{id}', [CandidateController::class, 'show'])->name('candidate');
 Route::PUT('/candidates/{id}', [CandidateController::class, 'update']);
 // Route::DELETE('/candidates/{id}', [CandidateController::class, 'destroy']);
+
+Route::GET('/vote', [VoteController::class, 'index'])->name('hasvoted');
+Route::POST('/vote', [VoteController::class, 'store']);
