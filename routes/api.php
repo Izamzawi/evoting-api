@@ -3,13 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Models\User;
 use App\Http\Controllers\UserController;
-
-use App\Models\Candidate;
 use App\Http\Controllers\CandidateController;
-
-use App\Models\Vote;
 use App\Http\Controllers\VoteController;
 
 /*
